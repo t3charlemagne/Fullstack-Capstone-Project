@@ -68,64 +68,80 @@ class CaesarCipher:
         return possible_text
 
 def caesar():
-    options = [1, 2, 3]
+    options = [1, 2, 3,4]
     keys = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
 
-    print("\nCaesar Cipher Algorithm Options:")
-    print("1. Encrypt Message")
-    print("2. Decrypt Message")
-    print("3. Brute Force Decryption")
+    banner = """
+       _________    ___________ ___    ____ 
+      / ____/   |  / ____/ ___//   |  / __ \\
+     / /   / /| | / __/  \__ \/ /| | / /_/ /
+    / /___/ ___ |/ /___ ___/ / ___ |/ _, _/ 
+    \____/_/  |_/_____//____/_/  |_/_/ |_|   
+    """
+    print(banner)
 
     while True:
-        try:
-            option = int(input("\nEnter Number to Select Option: "))
-            while option not in options:
-                option = int(input("Invalid Entry! Enter options '1', '2', or '3': "))
-            break
-        except ValueError:
-            print("Invalid input! Please enter a valid integer.")
+        print("\nCaesar Cipher Algorithm Options:")
+        print("1. Encrypt Message")
+        print("2. Decrypt Message")
+        print("3. Brute Force Decryption")
+        print("4. Enter 4 to exit tool")
 
-    try:
-        user_input = input("Enter MESSAGE to encrypt/decrypt: ")
-    except:
-        print("An Error occurred processing input.")
-    
-    if option == 1 or option == 2:
         while True:
             try:
-                key = int(input("\nEnter encryption/decryption KEY value: "))
-                while key not in keys:
-                    key = int(input("Invalid Entry! Enter a key value between 1 and 25."))
+                option = int(input("\nEnter Number to Select Option: "))
+                while option not in options:
+                    option = int(input("Invalid Entry! Enter options '1', '2', '3', '4': "))
                 break
             except ValueError:
                 print("Invalid input! Please enter a valid integer.")
+
+        if option == 4:
+            return
+
+        try:
+            user_input = input("Enter MESSAGE to encrypt/decrypt: ")
+        except:
+            print("An Error occurred processing input.")
         
-        cipher = CaesarCipher(key)
-        
-        if option == 1:
-            result = cipher.encrypt(user_input)
+        if option == 1 or option == 2:
+            while True:
+                try:
+                    key = int(input("\nEnter encryption/decryption KEY value: "))
+                    while key not in keys:
+                        key = int(input("Invalid Entry! Enter a key value between 1 and 25."))
+                    break
+                except ValueError:
+                    print("Invalid input! Please enter a valid integer.")
+            
+            cipher = CaesarCipher(key)
+            
+            if option == 1:
+                result = cipher.encrypt(user_input)
+            else:
+                result = cipher.decrypt(user_input)
+
+            print(f"\nMessage: {user_input}, Key: {key}")
+            print("Processing.....................")
+            print(f"\n{user_input} ==> {result}")
+
+        elif option == 3:
+            cipher = CaesarCipher(keys)
+            result = cipher.decrypt_bf(user_input)
+
+            mid_column = max(len(str(_[0])) for _ in result)
+            print(f"\n{'Key':<3}\t{'Text':<{mid_column}}")
+            for i in range(len(result)):
+                print(f"{result[i][1]:<3}\t{result[i][0]:<{mid_column}}")
         else:
-            result = cipher.decrypt(user_input)
-
-        print(f"\nMessage: {user_input}, Key: {key}")
-        print("Processing.....................")
-        print(f"\n{user_input} ==> {result}")
-
-    else:
-        cipher = CaesarCipher(keys)
-        result = cipher.decrypt_bf(user_input)
-
-        mid_column = max(len(str(_[0])) for _ in result)
-        print(f"\n{'Key':<3}\t{'Text':<{mid_column}}")
-        for i in range(len(result)):
-            print(f"{result[i][1]:<3}\t{result[i][0]:<{mid_column}}")
+            return
 ##################################SYMOHN ALASA-AS##############################################
 ###############################################################################################
 
 ###############################################################################################
 ##################################ADRIAN PINEDA################################################
 def hashes():
-    options = [1,2]
+    options = [1,2,3]
 
     print(".---.  .---.    ____       .-'''-. .---.  .---.         .---.  .---.    ____     _______  .-./`)  _______  .-./`  ")
     print("|   |  |_ _|  .'  __ `.   / _     \|   |  |_ _|         |   |  |_ _|  .'  __ `. \  ____  \\ .-.')\  ____  \\ .-.') ")
@@ -137,23 +153,27 @@ def hashes():
     print("|_{;}_)|   | \ (_ o _) / \       / |_{;}_)|   |         |_{;}_)|   | \ (_ o _) /|  (_,_)  /|   | |  (_,_)  /|   |  ")
     print("|(_,_) '---'  '.(_,_).'   `-...-'  '(_,_) '---'         '(_,_) '---'  '.(_,_).' /_______.' '---' /_______.' '---'  ")
 
-    print("Select an option:")
-    print("1. Identify a hash")
-    print("2. Generate a hash")
-
     while True:
-        try:
-            option = int(input("\nEnter Number to Select Option: "))
-            while option not in options:
-                option = int(input("Invalid Entry! Enter options '1' or '2': "))
-            break
-        except ValueError:
-            print("Invalid input! Please enter a valid integer.")
-    
-    if option == 1:
-        identify_hash()
-    else:
-        generate_hash()
+        print("Select an option:")
+        print("1. Identify a hash")
+        print("2. Generate a hash")
+        print("3. Enter 3 to exit tool")
+
+        while True:
+            try:
+                option = int(input("\nEnter Number to Select Option: "))
+                while option not in options:
+                    option = int(input("Invalid Entry! Enter options '1', '2', '3': "))
+                break
+            except ValueError:
+                print("Invalid input! Please enter a valid integer.")
+        
+        if option == 1:
+            identify_hash()
+        elif option == 2:
+            generate_hash()
+        else:
+            return
 
 def identify_hash():
         hash_input = input("Enter a Hash to Identify: ")
@@ -178,36 +198,43 @@ def check_hash(hash, type):
     return True
 
 def generate_hash():
-    hashes = [1,2,3]
-
-    print("Select a hash algorithm:")
-    print("1. MD5")
-    print("2. SHA1")
-    print("3. SHA256")
+    hashes = [1,2,3,4]
 
     while True:
-        try:
-            option = int(input("\nEnter Number to Select Hash Type: "))
-            while option not in hashes:
-                option = int(input("Invalid Entry! Enter options '1', '2', or '3': "))
-            break
-        except ValueError:
-            print("Invalid input! Please enter a valid integer.")
-    
-    message = input("Enter a Value to Hash: ")
-    
-    if option == 1:
-        hash_algo = hashlib.md5
-        result = hash_converter(message, hash_algo)
-        print(f"MD5, {message}:\n{result}")
-    elif option == 2:
-        hash_algo = hashlib.sha1
-        result = hash_converter(message, hash_algo)
-        print(f"SHA1, {message}:\n{result}")
-    else:
-        hash_algo = hashlib.sha256
-        result = hash_converter(message, hash_algo)
-        print(f"SHA256, {message}:\n{result}")
+        print("\nSelect a hash algorithm:")
+        print("1. MD5")
+        print("2. SHA1")
+        print("3. SHA256")
+        print("4. Enter 4 to exit tool")
+
+        while True:
+            try:
+                option = int(input("\nEnter Number to Select Hash Type: "))
+                while option not in hashes:
+                    option = int(input("Invalid Entry! Enter options '1', '2', '3', '4': "))
+                break
+            except ValueError:
+                print("Invalid input! Please enter a valid integer.")
+        
+        if option == 4:
+            return
+
+        message = input("Enter a Value to Hash: ")
+        
+        if option == 1:
+            hash_algo = hashlib.md5
+            result = hash_converter(message, hash_algo)
+            print(f"MD5, {message}:\n{result}")
+        elif option == 2:
+            hash_algo = hashlib.sha1
+            result = hash_converter(message, hash_algo)
+            print(f"SHA1, {message}:\n{result}")
+        elif option == 3:
+            hash_algo = hashlib.sha256
+            result = hash_converter(message, hash_algo)
+            print(f"SHA256, {message}:\n{result}")
+        else:
+            return
 
 def hash_converter(m, ha):
     hash_obj = ha()
@@ -245,42 +272,58 @@ class EncoderDecoder:
         return original_str
 
 def encoding():
-    encoding_types = [1,2,3,4]
+    encoding_types = [1,2,3,4,5]
 
-    print("\nSelect Option:")
-    print("1. Encode Base64")
-    print("2. Decode Base64")
-    print("3. Encode Binary")
-    print("4. Decode Binary")
+    banner = """
+     _____ _   _  ____ ___  ____  _____ ____      ______  _____ ____ ___  ____  _____ ____  
+    | ____| \ | |/ ___/ _ \|  _ \| ____|  _ \    / /  _ \| ____/ ___/ _ \|  _ \| ____|  _ \ 
+    |  _| |  \| | |  | | | | | | |  _| | |_) |  / /| | | |  _|| |  | | | | | | |  _| | |_) |
+    | |___| |\  | |__| |_| | |_| | |___|  _ <  / / | |_| | |__| |__| |_| | |_| | |___|  _ < 
+    |_____|_| \_|\____\___/|____/|_____|_| \_\/_/  |____/|_____\____\___/|____/|_____|_| \_\
+    """
+    print(banner)
 
     while True:
-        try:
-            option = int(input("\nEnter Number to Select Option: "))
-            while option not in encoding_types:
-                option = int(input("Invalid Entry! Enter options '1', '2', '3',  or '4': "))
-            break
-        except ValueError:
-            print("Invalid input! Please enter a valid integer.")
+        print("\nSelect Option:")
+        print("1. Encode Base64")
+        print("2. Decode Base64")
+        print("3. Encode Binary")
+        print("4. Decode Binary")
+        print("5. Enter 5 to exit tool")
 
-    try:
-        message = input("Enter MESSAGE to encode/decode: ")
-    except:
-        print("An Error occurred processing input.")
-    
-    code = EncoderDecoder(message)
-    
-    if option == 1:
-        result = code.base64_encode()
-        print(f"Input: {message} ==> Base64: {result}")
-    elif option == 2:
-        result = code.base64_decode()
-        print(f"Base 64: {message} ==> Decoded Base64: {result}")
-    elif option == 3:
-        result = code.binary_encode()
-        print(f"Input: {message} ==> Binary: {result}")
-    else:
-        result = code.binary_decode()
-        print(f"Binary: {message} ==> Decoded Binary: {result}")
+        while True:
+            try:
+                option = int(input("\nEnter Number to Select Option: "))
+                while option not in encoding_types:
+                    option = int(input("Invalid Entry! Enter options '1', '2', '3', '4', or '5': "))
+                break
+            except ValueError:
+                print("Invalid input! Please enter a valid integer.")
+
+        if option == 5:
+            return
+
+        try:
+            message = input("Enter MESSAGE to encode/decode: ")
+        except:
+            print("An Error occurred processing input.")
+        
+        code = EncoderDecoder(message)
+        
+        if option == 1:
+            result = code.base64_encode()
+            print(f"Input: {message} ==> Base64: {result}")
+        elif option == 2:
+            result = code.base64_decode()
+            print(f"Base 64: {message} ==> Decoded Base64: {result}")
+        elif option == 3:
+            result = code.binary_encode()
+            print(f"Input: {message} ==> Binary: {result}")
+        elif option == 4:
+            result = code.binary_decode()
+            print(f"Binary: {message} ==> Decoded Binary: {result}")
+        else:
+            return
 ##################################Tevanah Charlemagne##########################################
 ###############################################################################################
 
@@ -357,32 +400,45 @@ def gui():
 ###############################################################################################
 
 def main(argv):
-    tools = [1,2,3,4]
+    tools = [1,2,3,4,5]
 
-    print("This is a multi-functional tool. Follow prompts to utilize the proper functions.")
-    print("Select tool: ")
-    print("1. Hash Generator/Identifier")
-    print("2. Encoding/Decoding Methods")
-    print("3. Hashing w/ Graphical User Interface")
-    print("4. Caesar Cipher Encrypter/Decrypter and Brute Force Decrypter")
+    banner = """
+     _   _ _   _____ ____      _    
+    | | | | | |_   _|  _ \    / \   
+    | | | | |   | | | |_) |  / _ \  
+    | |_| | |___| | |  _ <  / ___ \ 
+     \___/|_____|_| |_| \_\/_/   \_\
+    """
+    print(banner)
 
     while True:
-        try:
-            option = int(input("\nEnter a Number to Select Tool: "))
-            while option not in tools:
-                option = int(input("Invalid Entry! Enter options '1', '2', '3', or '4': "))
+        print("This is a multi-functional tool. Follow prompts to utilize the proper functions.")
+        print("Select tool: ")
+        print("1. Hash Generator/Identifier")
+        print("2. Encoding/Decoding Methods")
+        print("3. Hashing w/ Graphical User Interface")
+        print("4. Caesar Cipher Encrypter/Decrypter and Brute Force Decrypter")
+        print("5. Enter 5 to quit")
+
+        while True:
+            try:
+                option = int(input("\nEnter a Number to Select Tool: "))
+                while option not in tools:
+                    option = int(input("Invalid Entry! Enter options '1', '2', '3', '4', or '5': "))
+                break
+            except ValueError:
+                print("Invalid input! Please enter a valid integer.")
+        
+        if option == 1:
+            hashes()
+        elif option == 2:
+            encoding()
+        elif option == 3:
+            gui()
+        elif option == 4:
+            caesar()
+        else:
             break
-        except ValueError:
-            print("Invalid input! Please enter a valid integer.")
-    
-    if option == 1:
-        hashes()
-    elif option == 2:
-        encoding()
-    elif option == 3:
-        gui()
-    else:
-        caesar()
 
 
 if __name__ == "__main__":
